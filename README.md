@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/yimoshen2000/r.package/workflows/R-CMD-check/badge.svg)](https://github.com/yimoshen2000/r.package/actions)
 <!-- badges: end -->
 
-The goal of r.package is to gain experience on my first well-documented, well-tested, and well-explained R package. This R package include the following functions I’ve written:
+The goal of r.package is to gain experience on writing my first well-documented, well-tested, and well-explained R package. This R package include the following functions I’ve written:
 
 - my_t.test
 - my_lm
@@ -23,7 +23,7 @@ devtools::install_github("yimoshen2000/r.package")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to solve some common problems:
 
 ``` r
 library(r.package)
