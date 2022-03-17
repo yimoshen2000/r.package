@@ -1,0 +1,25 @@
+Package: r.package
+Title: Package that contains 3 functions that I wrote
+Version: 0.0.0.9000
+Authors@R: 
+    person("Yimo", "Shen",, "yimoshen2000@gmail.com", role = c("aut", "cre"))
+Description: This package includes 3 functions-my_t.test, my_lm, and my_knn_cv-with demonstrations on how to use these functions.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Imports:
+  palmerpenguins,
+  class,
+  knitr,
+  kableExtra,
+  dplyr,
+  stats
+VignetteBuilder: knitr
+Suggests: 
+    testthat (>= 3.0.0),
+    rmarkdown
+Config/testthat/edition: 3

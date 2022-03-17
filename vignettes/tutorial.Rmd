@@ -1,0 +1,87 @@
+---
+title: "r.package Tutorial"
+author: "Yimo Shen"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{r.package Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(r.package)
+library(class)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+```
+
+## Introduction
+r.package contains three functions that are commonly used to solve statistical problems:  
+
+* my_t.test: performs a one sample t-test.  
+
+* my_lm: fits a linear model
+
+* my_knn_cv: performs a K-Nearest Neighbor Cross-Validation
+
+This document is a tutorial for the use of these functions with `penguins` data imported from the popular `palmerpenguins` package. It is stored within this package as `my_penguins` and a detailed breakdown of this dataset can be accessed in the help file by typing `?my_penguins` in the console.
+
+## 1. my_t.test Tutorial
+A detailed breakdown of this function can be accessed in the help file by typing `?my_t.test` in the console. We can demonstrate the use of `my_t.test` by testing the hypothesis that the mean body_mass_g of Adelie penguins is equal to 4000 grams, while the alternative hypothesis is that the mean is less than 4000 grams. This test prompts us to use "less" as the value for `alternative` and 4000 as the value of `mu`. Results will be interpreted based on the p-value cut-off of α = 0.05.
+
+$H_0: \mu_\text{Adelie Body Mass} = 4000$
+
+$H_a: \mu_\text{Adelie Body Mass} < 4000$
+
+$\alpha = 0.05$
+
+```{r}
+penguins <- na.omit(r.package::my_penguins[, 1:6])
+adelie_bodymass <- penguins[penguins$species == 'Adelie', ]$body_mass_g
+p_val <- my_t.test(adelie_bodymass, alternative = "less", mu = 4000)[[4]]
+```
+
+Based on the result from `my_t.test` function, The p-value is `r p_val`. Since the p-value cut-off is 0.05 and the p-value we got here is significantly lower than the cut-off value, we successfully reject the null hypothesis. In other words, there is significant evidence that that the mean body mass of Adelie penguins is less than 4000 grams. 
+
+## 2. my_lm Tutorial 
+A detailed breakdown of this function can be accessed in the help file by typing `?my_lm` in the console. We can demonstrate the use of `my_lm` by testing the correlation between the independent variable `flipper_length_mm` and the dependent variable `body_mass_g`. Results will be interpreted based on the p-value cut-off of α = 0.05.
+
+```{r}
+my_lm(body_mass_g ~ flipper_length_mm, data = penguins)
+```
+
+From this summary, the `flipper_length_mm` coefficient tells us that for every mm increase in flipper length, the body mass of the penguin increases by about 49.69 grams. Since the p-value cut-off is 0.05 and the p-value we got here is 0, it is significantly lower than the cut-off value and we successfully reject the null hypothesis. In other words, there's significant evidence to suggest that the variables `flipper_length_mm` and `body_mass_g` are correlated. 
+
+
+## 3. my_knn_cv Tutorial  
+A detailed breakdown of this function can be accessed in the help file by typing `?my_knn_cv` in the console. We can demonstrate the use of `my_knn_cv` by predicting the output class `species` using covariates `bill_length_mm`, `vbill_depth_mm`, `flipper_length_mm`, and `body_mass_g`. We will use 5-fold cross validation (k_cv = 5) and predict the output class `species` with with 1-nearest neighbor through 10-nearest neighbors.
+
+```{r}
+# grabbing training data
+covariates <- data.frame(penguins$bill_length_mm, penguins$bill_depth_mm, 
+                         penguins$flipper_length_mm, penguins$body_mass_g)
+# iterate from k_nn=1-10 and record the training and CV misclassification rate
+cv_errs <- numeric()
+training_errs <- numeric()
+k_nn <- 1:10
+for (k in k_nn) {
+  output <- my_knn_cv(covariates, penguins$species, k, 5)
+  cv_errs[k] <- output$cv_err
+  training_errs[k] <- sum(output$class != penguins$species) / length(penguins$species)
+}
+# Provide a table of training misclassification rates and CV misclassification rates.
+table <- data.frame(k_nn, training_errs, cv_errs)
+table %>%
+  kbl(caption = "training and CV misclassification rates") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+From this table, based on the training misclassification rates, the model where k_nn = 1 is the best choice as it has the lowest rate. Based on the CV misclassification rates, the model where k_nn = 1 is also the best choice as it has the lowest rate. In practice, based on the bias-variance trade off, I would choose model with the lowest CV misclassification rates as the most important part of making predictions is how the model will perform outside of the sample data. 
