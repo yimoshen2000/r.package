@@ -8,7 +8,7 @@
 #' 
 #' @return a table for each coefficient and columns for the Estimate, Std. Error, t-value, and p-value
 #' 
-#' @import stats
+#' @importFrom stats model.frame model.matrix model.response na.omit predict pt sd
 #' @examples 
 #' grades_data <- read.csv("https://www.openintro.org/data/csv/gpa.csv")
 #' my_lm(formula = gpa ~ studyweek, data = grades_data)

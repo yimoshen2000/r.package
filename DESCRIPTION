@@ -15,9 +15,7 @@ Imports:
   palmerpenguins,
   class,
   knitr,
-  kableExtra,
-  dplyr,
-  stats
+  dplyr
 VignetteBuilder: knitr
 Suggests: 
     testthat (>= 3.0.0),

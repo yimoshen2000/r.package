@@ -12,7 +12,6 @@
 #'   \code{df}: degrees of freedom
 #'   \code{alternative}: value of the parameter \code{alternative}
 #'   \code{p_val}: p-value
-#' @import stats
 #' @examples
 #' helium_data <- read.csv("https://www.openintro.org/data/csv/helium.csv")
 #' my_t.test(helium_data[3], alternative = "greater", mu = 20)

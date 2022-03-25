@@ -17,10 +17,6 @@ knitr::opts_chunk$set(
 
 ```{r setup, include = FALSE}
 library(r.package)
-library(class)
-library(knitr)
-library(kableExtra)
-library(dplyr)
 ```
 
 ## Introduction
@@ -79,9 +75,7 @@ for (k in k_nn) {
 }
 # Provide a table of training misclassification rates and CV misclassification rates.
 table <- data.frame(k_nn, training_errs, cv_errs)
-table %>%
-  kbl(caption = "training and CV misclassification rates") %>%
-  kable_classic(full_width = F, html_font = "Cambria")
+print(table)
 ```
 
 From this table, based on the training misclassification rates, the model where k_nn = 1 is the best choice as it has the lowest rate. Based on the CV misclassification rates, the model where k_nn = 1 is also the best choice as it has the lowest rate. In practice, based on the bias-variance trade off, I would choose model with the lowest CV misclassification rates as the most important part of making predictions is how the model will perform outside of the sample data. 

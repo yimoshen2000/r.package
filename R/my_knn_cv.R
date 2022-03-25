@@ -12,7 +12,7 @@
 #'   \code{class}: a vector of the predicted class Yi for all observations
 #'   \code{cv_err}: a numeric with the cross-validation mis-classification error
 #'    
-#' @import knitr kableExtra class dplyr
+#' @import knitr class dplyr
 #' @examples
 #' penguins <- na.omit(my_penguins[, 1:6])
 #' train <- penguins[, 3:6]
