@@ -39,6 +39,5 @@ my_lm <- function(formula, data) {
   # compute a p-value
   p_val <- 2 * pt(abs(test_stat), df, lower.tail = FALSE)
   result <- data.frame(beta, se, test_stat, p_val)
-  table <- kable(result, format = "simple", col.names = c("Estimate", "Std. Error", "t value", "p value"))
-  return (table)
+  return (result)
 }

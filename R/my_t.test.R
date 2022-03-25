@@ -33,8 +33,11 @@ my_t.test <- function(x, alternative, mu) {
     p_val <- pt(test_stat, df, lower.tail = TRUE)
   } else if (alternative == "greater") {
     p_val <- pt(test_stat, df, lower.tail = FALSE)
-  } else {
+  } else if (alternative == "two.sided"){
     p_val <- 2 * pt(abs(test_stat), df, lower.tail = FALSE)
+  } else {
+    message("*alternative* input must be less, greater, or two.sided!")
+    return(alternative)
   }
   # return output list
   output <- list(test_stat, df, alternative, p_val)
